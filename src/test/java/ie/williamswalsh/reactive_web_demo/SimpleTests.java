@@ -10,20 +10,34 @@ import static org.mockito.Mockito.when;
 class SimpleTests {
 
     @Test
-    void testing() {
-
-        // Mock class
-        Sample sample = Mockito.mock(Sample.class);
-        // Mock method
-        when(sample.returnString()).thenReturn("y");
+    void testingResponse() {
         // Create WebTestClient from ctrlr
         WebTestClient webTestClient = WebTestClient.bindToController(new OtherCtrlr()).build();
 
+        // Expectations/Assertions
         webTestClient
                 .get()
                 .uri("/getString")
                 .exchange()
                 .expectStatus().isCreated();
+    }
+
+    @Test
+    void testingResponseBody() {
+        // Create WebTestClient from ctrlr
+        WebTestClient webTestClient = WebTestClient.bindToController(new OtherCtrlr()).build();
+
+        // Expectations/Assertions
+        webTestClient
+                .get()
+                .uri("/getCar")
+                .exchange()
+                .expectStatus().isCreated()
+                .expectBody()
+                    .jsonPath("$").isNotEmpty()
+                .jsonPath("$['brand']").isEqualTo("Ferrari")
+                .jsonPath("non_existant_field").doesNotExist();
+
     }
 }
 
