@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.reactive.function.server.RouterFunction;
 import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.net.URI;
@@ -23,6 +24,7 @@ public class WebConfig {
         return route( GET("/hello"), request -> ok().body(just("Hello"), String.class))
                 .andRoute( GET("/method"), this::methodRefExample)
                 .andRoute( GET("/method2"), this::secondMethodRefExample);
+                // .andRoute( GET("/getMultipleCars"), this::getMultipleCars);
     }
 
     private Mono<ServerResponse> methodRefExample(ServerRequest serverRequest) {
@@ -34,5 +36,14 @@ public class WebConfig {
 
         return ServerResponse.created(URI.create("http://localhost:8080/1111"))
                 .body(carMono, Car.class);
+    }
+
+    private Mono<ServerResponse> getMultipleCars(ServerRequest serverRequest) {
+        Car ferrari = new Car("Ferrari", "F12", 2012, 1L);
+        Car lamborghini = new Car("Lamborghini", "Murceilago LP640", 2012, 2L);
+        Flux<Car> carFlux = Flux.just(lamborghini, ferrari);
+
+        return ServerResponse.created(URI.create("http://localhost:8080/2222"))
+                .body(carFlux, Car.class);
     }
 }
