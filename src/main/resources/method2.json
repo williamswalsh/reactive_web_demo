@@ -1,1 +1,6 @@
-{"brand":"Ferrari","model":"F12","year":2012,"id":1}
+{
+  "registration": "22KY1",
+  "brand": "FERRARI",
+  "model": "F12",
+  "year": 2012
+}

@@ -1,4 +1,4 @@
-package ie.williamswalsh.reactive_web_demo;
+package ie.williamswalsh;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
